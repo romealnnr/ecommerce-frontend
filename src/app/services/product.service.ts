@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Product } from '../common/product';
+import { ProductCategory } from '../common/product-category';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
+  
+  private categoryUrl = 'http://localhost:8081/api/product-category';
   private baseUrl = 'http://localhost:8081/api/products'; //ici cest le lien du backend   'http://localhost:8081/api/products?size=100'
 
   constructor(private httpClient: HttpClient) { }
@@ -17,15 +19,28 @@ export class ProductService {
     //create the URL
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${CategoryId}`;
 
-    return this.httpClient.get<GetResponse>(searchUrl).pipe(
+    return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(
       map(response => response._embedded.products)
+    );
+  }
+
+  getProductCategories(): Observable<ProductCategory[]> {
+    //we call the restAPI that return an observable that we map the json return to ProductCategory array
+     return this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
+      map(response => response._embedded.productCategory)
     );
   }
 }
 
 //exactement la config du json que nous renvoi le backend
-interface GetResponse{
+interface GetResponseProduct{
   _embedded: {
     products: Product[];
+  }
+}
+
+interface GetResponseProductCategory{
+  _embedded: {
+    productCategory: ProductCategory[];
   }
 }

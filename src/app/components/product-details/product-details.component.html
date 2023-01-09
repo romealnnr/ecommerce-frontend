@@ -1,0 +1,14 @@
+<div class="detail-section">
+    <div class="container-fluid">
+       <img src="{{product.imageUrl}}" class="detail-img" alt="">
+       <h3>{{product.sku}}</h3>
+      <h3>{{product.unitPrice | currency:"EUR"}}</h3> 
+      <a href="#" class="primary-btn">add to card</a>
+    </div>
+
+    <hr>
+    <h4>Description</h4>
+    <p>{{product.description}}</p>
+
+    <a routerLink="/products" class="mt-5">Back to products list</a>
+</div>

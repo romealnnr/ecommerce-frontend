@@ -8,15 +8,20 @@ import { ProductCategory } from '../common/product-category';
   providedIn: 'root'
 })
 export class ProductService {
-  getProduct(productid: number) {
-    throw new Error('Method not implemented.');
-  }
 
   
   private categoryUrl = 'http://localhost:8081/api/product-category';
   private baseUrl = 'http://localhost:8081/api/products'; //ici cest le lien du backend   'http://localhost:8081/api/products?size=100'
 
   constructor(private httpClient: HttpClient) { }
+
+  getProductListPaginate(thePage: number, thePageSize: number, CategoryId: number): Observable<GetResponseProducts>{
+
+    //create the URL
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${CategoryId}`+ `&page=${thePage}&size=${thePageSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  }
 
   getProductList(CategoryId: number): Observable<Product[]>{
 
@@ -46,16 +51,22 @@ export class ProductService {
   }
 
   private getProducts(searchUrl: string): Observable<Product[]> {
-    return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(
+    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
       map(Response => Response._embedded.products)
     );
   }
 }
 
 //exactement la config du json que nous renvoi le backend
-interface GetResponseProduct{
+interface GetResponseProducts {
   _embedded: {
     products: Product[];
+  },
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number
   }
 }
 

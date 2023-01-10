@@ -7,6 +7,7 @@ import { Product } from '../common/product';
   providedIn: 'root'
 })
 export class CartService {
+  
 
   allCartItems: CartItem[] = [];
   totalPrice: Subject<number> = new Subject<number>(); //subject is a subclass of observable. we use it to publish events in our code, and the event will be sent to all subscribers
@@ -29,8 +30,6 @@ export class CartService {
           break;
         }
       }
-
-      
     }
     
     if(isInCart){
@@ -66,5 +65,22 @@ export class CartService {
     }
 
     console.log(`totalprice: ${totalPriceValue.toFixed(2)}, totalQuantity: ${totalQuantityValue}`); //give the result with 2 digits after decimal
+  }
+
+  decrementQuantity(cartItem: CartItem) {
+    cartItem.quantity--;
+
+    if(cartItem.quantity == 0){
+      this.remove(cartItem);
+    }
+  }
+  remove(AcartItem: CartItem) {
+    const itemIndex = this.allCartItems.findIndex(cartItem => cartItem.id == AcartItem.id);
+
+    if(itemIndex > -1){
+      this.allCartItems.splice(itemIndex, 1);//remove one element in the index with number itemIndex
+
+      this.calculateCartTotals();
+    }
   }
 }

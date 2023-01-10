@@ -1,0 +1,58 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluide">
+            <div *ngIf="cartItems.length > 0">
+                <table class="table table-bordered">
+                    <tr>
+                        <th width="20%">Product image</th>
+                        <th width="50%">Product Detail</th>
+                        <th width="30%"></th>
+                    </tr>
+                    <tr *ngFor="let cart of cartItems">
+                        <td>
+                            <img src="{{ cart.imageUrl }}" class="img-responsive" width="150px" />
+                        </td>
+                        <td>
+                            <p>{{cart.name}}</p>
+                            <p>{{cart.unitPrice | currency: "EUR"}}</p>
+                        </td>
+                        <td>
+                            <div class="items">
+                                <label>Quantity</label> 
+                                <div class="row no-gutters">
+                                    <div class="col">
+                                        <button (click)="incrementQuantity(cart)" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col ml-4 mr-2">
+                                        {{cart.quantity}}
+                                    </div>
+                                    <div class="col">
+                                        <button (click)="decrementQuantity(cart)" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-8"></div>
+                                </div>
+                            </div>
+                            <button (click)="removeCart(cart)" class="btn btn-primary btn-sm mt-2">remove</button>
+
+                            <p class="mt-2">Subtotal: {{ cart.quantity*cart.unitPrice | currency: "EUR" }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td style="font-weight: bold;">
+                            <p>Total Quantity: {{totalQuantity}}</p>
+                            <p>Shipping: Free</p>
+                            <p>Total Price: {{totalPrice | currency: "EUR"}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- display a message if the cart is empty-->
+            <div *ngIf="cartItems.length == 0" class="alert alert-warning col-md-12" role="alert">your shopping cart is empty</div>
+        </div>
+    </div>
+</div>

@@ -36,7 +36,10 @@
                                     <div class="col-8"></div>
                                 </div>
                             </div>
-                            <button (click)="removeCart(cart)" class="btn btn-primary btn-sm mt-2">remove</button>
+                            <div class="row no-gutters"> 
+                                <button (click)="removeCart(cart)" class="btn btn-primary btn-sm mt-2">remove</button>
+                            </div>
+                           
 
                             <p class="mt-2">Subtotal: {{ cart.quantity*cart.unitPrice | currency: "EUR" }}</p>
                         </td>
@@ -47,6 +50,11 @@
                             <p>Total Quantity: {{totalQuantity}}</p>
                             <p>Shipping: Free</p>
                             <p>Total Price: {{totalPrice | currency: "EUR"}}</p>
+                            
+                            <div class="row no-gutters"> 
+                                <a routerLink="/checkout" class="btn btn-primary" >checkout</a>
+                            </div>
+                            
                         </td>
                     </tr>
                 </table>

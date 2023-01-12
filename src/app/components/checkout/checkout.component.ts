@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ShopFormService } from 'src/app/services/shop-form.service';
 
 @Component({
   selector: 'app-checkout',
@@ -9,8 +10,12 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class CheckoutComponent implements OnInit{
 
   checkoutFormGroup!: FormGroup; //set of formcontrols or other groups...
+  totalPrice: number = 0.00;
+  totalQuantity: number = 0;
+  creditCartYears: number[] = [];
+  creditCartMonths: number[] = [];
   
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder, private shopFormService: ShopFormService){}
  
   ngOnInit(): void{
     this.checkoutFormGroup = this.formBuilder.group({
@@ -42,6 +47,45 @@ export class CheckoutComponent implements OnInit{
         expirationYear: ['']
       }),
     })
+
+    //populate credit cart month and year
+    const startMonth: number = new Date().getMonth() + 1;  //get the current month(in javascript the month start from 0)
+    console.log(startMonth);
+
+    this.shopFormService.getCreditCartMonths(startMonth).subscribe(
+      data => {
+        console.log("retrieved credit cart months" + JSON.stringify(data));
+        this.creditCartMonths = data;
+      }
+    );
+
+    this.shopFormService.getCreditCardYears().subscribe(
+      data => {
+        console.log("retrieved credit cart years" + JSON.stringify(data));
+        this.creditCartYears = data;
+      }
+    );
+  }
+
+  handleMonthAndYears(){
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditcard');
+    const currentYear: number = new Date().getFullYear();
+    const selectedYear: number = Number(creditCardFormGroup?.value.expirationYear);
+
+    let startMonth: number;
+
+    if(currentYear == selectedYear){
+      startMonth = new Date().getMonth() + 1;
+    }else{
+      startMonth = 1;
+    }
+
+    this.shopFormService.getCreditCartMonths(startMonth).subscribe(
+      data => {
+        console.log("retrieved credit cart months" + JSON.stringify(data));
+        this.creditCartMonths = data;
+      }
+    );
   }
 
   copyShippingToBillingAdress(event: any){

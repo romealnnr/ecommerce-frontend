@@ -194,7 +194,7 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="expirationMonth">
-                                    to do
+                                    <option *ngFor="let month of creditCartMonths">{{month}}</option>
                                 </select>
                             </div>
                         </div>
@@ -204,8 +204,8 @@
                         <div class="col-md-2"><label>Expiration Year</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="expirationMonth">
-                                    <option value="">to do</option>
+                                <select formControlName="expirationMonth" (change)="handleMonthAndYears()">
+                                    <option *ngFor="let year of creditCartYears">{{year}}</option>
                                 </select>
                             </div>
                         </div>

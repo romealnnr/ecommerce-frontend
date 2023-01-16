@@ -40,18 +40,20 @@
                         <div class="col-md-2"><label>Country</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country">
-                                    <option value="">to do</option>
+                                <select formControlName="country" (change)="getAllStates('shippingAddress')">
+                                    <option *ngFor="let country of countries" [ngValue]="country"> {{ country.name }}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"><label>Street</label></div>
+                        <div class="col-md-2"><label>State/Region/Province</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <input formControlName="street" type="text">
+                                <select formControlName="state">
+                                    <option *ngFor="let state of shippingAddressStates" [ngValue]="state">{{state.name}}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -66,12 +68,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"><label>Country State</label></div>
+                        <div class="col-md-2"><label>Street</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="state">
-                                    <option value="">to do</option>
-                                </select>
+                                <input formControlName="street" type="text">
                             </div>
                         </div>
                     </div>
@@ -101,8 +101,19 @@
                         <div class="col-md-2"><label>Country</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country">
-                                    <option value="">to do</option>
+                                <select formControlName="country" (change)="getAllStates('billingAddress')">
+                                    <option *ngFor="let country of countries" [ngValue]="country"> {{ country.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2"><label>State/Region/Province</label></div>
+                        <div class="col-md-9">
+                            <div class="input-space">
+                                <select formControlName="state">
+                                    <option *ngFor="let state of billingAddressStates" [ngValue]="state">{{state.name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -122,17 +133,6 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="city" type="text">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-2"><label>Country State</label></div>
-                        <div class="col-md-9">
-                            <div class="input-space">
-                                <select formControlName="state">
-                                    <option value="">to do</option>
-                                </select>
                             </div>
                         </div>
                     </div>
@@ -216,9 +216,9 @@
                 <div class="form-area">
                     <h3>Review Your Order</h3>
 
-                    <!--<p>Total Quantity: {{ totalQuantity }}</p>
+                    <p>Total Quantity: {{ totalQuantity }}</p>
                     <p>Shipping: Free</p>
-                    <p>Total Price: {{ totalPrice }}</p>-->
+                    <p>Total Price: {{ totalPrice }}</p>
                 </div>
 
                 <!-- submit button -->

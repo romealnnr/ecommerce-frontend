@@ -84,22 +84,19 @@ export class CheckoutComponent implements OnInit{
       }
     );
 
-    this.cartItems = this.cartService.allCartItems;
-    this.cartService.totalPrice.subscribe(data => this.totalPrice = data);
-    this.cartService.totalQuantity.subscribe(data => this.totalQuantity = data);
+    this.reviewCartDetail()
 
     this.cartService.calculateCartTotals();
 
-    this.listCartDetails();
   }
-
-  listCartDetails() {
+  reviewCartDetail() {
+    //subscribe to cartService to get the updated values
     this.cartItems = this.cartService.allCartItems;
     this.cartService.totalPrice.subscribe(data => this.totalPrice = data);
     this.cartService.totalQuantity.subscribe(data => this.totalQuantity = data);
-
-    this.cartService.calculateCartTotals();
   }
+
+  
 
   //getter methods to access the formControl 
   get firstName(){return this.checkoutFormGroup.get('customer.firstName');}

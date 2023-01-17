@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { CartItem } from '../common/cart-item';
 import { Product } from '../common/product';
 
@@ -10,8 +10,12 @@ export class CartService {
   
 
   allCartItems: CartItem[] = [];
-  totalPrice: Subject<number> = new Subject<number>(); //subject is a subclass of observable. we use it to publish events in our code, and the event will be sent to all subscribers
-  totalQuantity: Subject<number> = new Subject<number>();
+  totalPrice: Subject<number> = new BehaviorSubject<number>(0); //BehaviorSubject is a subclass of observable. we use it to save the lastest(has buffer for the last event) message/event and  send to new subscribers. 0 is the default initial value
+  totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
+  //totalPrice: Subject<number> = new Subject<number>(); //subject is a subclass of observable. we use it to publish events in our code, and the event will be sent to all subscribers
+  //totalQuantity: Subject<number> = new Subject<number>();
+
+
   constructor() { }
 
   addToCart(theCartItem: CartItem){
